@@ -1,0 +1,13 @@
+FROM eclipse-temurin:17-jdk
+
+RUN apt-get update && apt-get install -y ant
+
+WORKDIR /app
+
+COPY . .
+
+RUN ant clean dist
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "dist/MpeoaERPSystem.war"]

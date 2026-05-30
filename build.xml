@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MpeoaERPSystem" default="dist" basedir=".">
+    
+    <property name="src.dir" value="src/java"/>
+    <property name="web.dir" value="web"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="javac.source" value="17"/>
+    <property name="javac.target" value="17"/>
+    
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+    
+    <target name="init">
+        <mkdir dir="${build.dir}/WEB-INF/classes"/>
+        <mkdir dir="${build.dir}/WEB-INF/lib"/>
+        <mkdir dir="${dist.dir}"/>
+        <copy todir="${build.dir}/WEB-INF/lib">
+            <fileset dir="${lib.dir}" includes="*.jar"/>
+        </copy>
+    </target>
+    
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" 
+               destdir="${build.dir}/WEB-INF/classes"
+               source="${javac.source}"
+               target="${javac.target}"
+               includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="*.jar"/>
+                <fileset dir="${web.dir}/WEB-INF/lib" includes="*.jar" erroronmissingdir="false"/>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="dist" depends="compile">
+        <copy todir="${build.dir}">
+            <fileset dir="${web.dir}"/>
+        </copy>
+        <war destfile="${dist.dir}/MpeoaERPSystem.war" 
+             webxml="${web.dir}/WEB-INF/web.xml"
+             needxmlfile="false">
+            <fileset dir="${build.dir}"/>
+        </war>
+    </target>
+</project>

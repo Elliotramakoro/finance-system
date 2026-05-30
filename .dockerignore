@@ -1,0 +1,10 @@
+.git
+.gitignore
+build
+dist
+target
+nbproject/private
+*.class
+*.log
+*.war
+*.jar
